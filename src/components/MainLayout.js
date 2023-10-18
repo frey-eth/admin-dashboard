@@ -6,7 +6,10 @@ import {
   DashboardOutlined,
   ShoppingCartOutlined,
 } from "@ant-design/icons";
-import { MdProductionQuantityLimits } from "react-icons/md";
+import {
+  MdProductionQuantityLimits,
+  MdOutlineNotifications,
+} from "react-icons/md";
 import {
   TbBrandBlogger,
   TbCategory,
@@ -168,8 +171,20 @@ const MainLayout = () => {
               height: 64,
             }}
           />
-          <div className="">
-            <h3>Admin</h3>
+          <div className="d-flex gap-3 align-items-center m-1">
+            <div>
+              <MdOutlineNotifications />
+              <span className="badge bg-warning rounded-circle p-1 position-absolute">
+                3
+              </span>
+            </div>
+            <div className="d-flex gap-3 align-items-center">
+              <UserOutlined />
+              <div>
+                <h5 className="mb-0">Pham Van Duong</h5>
+                <p className="mb-0">example@example.com</p>
+              </div>
+            </div>
           </div>
         </Header>
         <Content
@@ -177,10 +192,9 @@ const MainLayout = () => {
             margin: "24px 16px",
             padding: 24,
             minHeight: 280,
-            background: colorBgContainer,
           }}
         >
-          <Outlet />
+          <Outlet/>
         </Content>
       </Layout>
     </Layout>

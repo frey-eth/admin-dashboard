@@ -46,4 +46,36 @@ body {
 
 .main {
   overflow-y: scroll;
+  background-color: transparent;
 }
+.main::-webkit-scrollbar {
+  width: 0px;
+}
+.ant-menu-title-content {
+  font-size: 16px;
+}
+
+.ant-layout-header h5 {
+  line-height: 30px;
+  font-size: 14px;
+}
+
+.ant-layout-header p {
+  line-height: 20px;
+  font-size: 12;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.ant-layout-header div .badge {
+  top: 16px;
+}
+
+/* Dashboard */
+.green {
+  color: green;
+}
+
+.red {
+  color: red;
+}
+/* Dashboard */
