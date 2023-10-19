@@ -114,7 +114,7 @@ const MainLayout = () => {
               ],
             },
             {
-              key: "order",
+              key: "orders",
               icon: <FaClipboardList />,
               label: "Orders",
             },
@@ -136,7 +136,7 @@ const MainLayout = () => {
                 {
                   key: "blog-category",
                   icon: <BsChatLeftHeart />,
-                  label: "Blog Category",
+                  label: "Add Blog Category",
                 },
                 {
                   key: "blog-category-list",
