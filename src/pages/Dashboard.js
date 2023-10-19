@@ -1,6 +1,6 @@
 import React from "react";
 import { BsArrowUpRight, BsArrowDownRight } from "react-icons/bs";
-import { Divider, Radio, Table } from "antd";
+import { Table } from "antd";
 import { Column } from "@ant-design/plots";
 
 const Dashboard = () => {

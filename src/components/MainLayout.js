@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { ToastContainer } from "react-toastify";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -20,7 +21,7 @@ import { BsChatLeftHeart, BsPatchQuestion } from "react-icons/bs";
 import { ImBlog } from "react-icons/im";
 import { FaClipboardList, FaBlog } from "react-icons/fa";
 import { Layout, Menu, Button, theme } from "antd";
-import { useNavigate, Outlet } from "react-router-dom";
+import { useNavigate, Outlet, Link } from "react-router-dom";
 
 const { Header, Sider, Content } = Layout;
 
@@ -49,7 +50,7 @@ const MainLayout = () => {
           mode="inline"
           defaultSelectedKeys={[""]}
           onClick={({ key }) => {
-            if (key == "signout") {
+            if (key === "signout") {
             } else {
               navigate(key);
             }
@@ -153,9 +154,9 @@ const MainLayout = () => {
           ]}
         />
       </Sider>
-      <Layout>
+      <Layout className="site-layout">
         <Header
-          className="d-flex justify-content-between align-items-center p-lg-3"
+          className="d-flex justify-content-between ps-1 pe-5"
           style={{
             padding: 0,
             background: colorBgContainer,
@@ -172,17 +173,49 @@ const MainLayout = () => {
             }}
           />
           <div className="d-flex gap-3 align-items-center m-1">
-            <div>
+            <div className="m-2 position-relative">
               <MdOutlineNotifications />
               <span className="badge bg-warning rounded-circle p-1 position-absolute">
                 3
               </span>
             </div>
             <div className="d-flex gap-3 align-items-center">
-              <UserOutlined />
               <div>
                 <h5 className="mb-0">Pham Van Duong</h5>
                 <p className="mb-0">example@example.com</p>
+              </div>
+              <div className="dropdown">
+                <div
+                  role="button"
+                  id="dropdownMenuLink"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <UserOutlined />
+                </div>
+                <div
+                  className="dropdown-menu"
+                  aria-labelledby="dropdownMenuLink"
+                >
+                  <li>
+                    <Link
+                      className="dropdown-item py-1 mb-1"
+                      style={{ height: "auto", lineHeight: "20px" }}
+                      to="/"
+                    >
+                      View Profile
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className="dropdown-item py-1 mb-1"
+                      style={{ height: "auto", lineHeight: "20px" }}
+                      to="/"
+                    >
+                      Signout
+                    </Link>
+                  </li>
+                </div>
               </div>
             </div>
           </div>
@@ -192,9 +225,21 @@ const MainLayout = () => {
             margin: "24px 16px",
             padding: 24,
             minHeight: 280,
+            background: colorBgContainer,
           }}
         >
-          <Outlet/>
+          <ToastContainer
+            position="top-right"
+            autoClose={250}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="light"
+          />
+          <Outlet />
         </Content>
       </Layout>
     </Layout>
