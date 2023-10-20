@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Table } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts } from "../features/product/ProductSlice";
 
 const columns = [
   {
@@ -11,46 +13,33 @@ const columns = [
     dataIndex: "name",
   },
   {
-    title: "Product",
-    dataIndex: "product",
+    title: "Category",
+    dataIndex: "category",
   },
   {
-    title: "Status",
-    dataIndex: "status",
+    title: "Brand",
+    dataIndex: "brand",
   },
 ];
-const dataOrder = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sydney No. 1 Lake Park",
-  },
-  {
-    key: "4",
-    name: "Disabled User",
-    age: 99,
-    address: "Sydney No. 1 Lake Park",
-  },
-];
-
 const ProductList = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getProducts);
+  }, []);
+  const productState = useSelector((state) => state.product.products);
+  const data = [];
+  for (let i = 0; i < productState.length; i++) {
+    data.push({
+      key: i + 1,
+      name: productState[i].title,
+      category: productState[i].category,
+      brand: productState[i].brand,
+    });
+  }
   return (
     <div>
       <h3 className="mt-4">Product List</h3>
-      <Table columns={columns} dataSource={dataOrder} />
+      <Table columns={columns} dataSource={data} />
     </div>
   );
 };
