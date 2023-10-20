@@ -76,3 +76,10 @@ main::-webkit-scrollbar {
 .ant-layout-header div .badge {
   top: 16px;
 }
+
+.error {
+  color: red;
+  font-size: 12px;
+  margin-left: 5px;
+}
+
