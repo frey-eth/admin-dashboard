@@ -2,6 +2,10 @@ import React, { useEffect } from "react";
 import { Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../features/product/ProductSlice";
+import { BiEdit } from "react-icons/bi";
+import { AiOutlineDelete } from "react-icons/ai";
+
+import { Link } from "react-router-dom";
 
 const columns = [
   {
@@ -17,8 +21,16 @@ const columns = [
     dataIndex: "category",
   },
   {
-    title: "Brand",
-    dataIndex: "brand",
+    title: "Color",
+    dataIndex: "color",
+  },
+  {
+    title: "Price",
+    dataIndex: "price",
+  },
+  {
+    title: "Action",
+    dataIndex: "action",
   },
 ];
 const ProductList = () => {
@@ -26,15 +38,26 @@ const ProductList = () => {
   useEffect(() => {
     dispatch(getProducts());
   }, []);
-  const productState = useSelector((state) => state.product).products;
-  console.log(productState);
+  const productState = useSelector((state) => state.product.products);
   const data = [];
   for (let i = 0; i < productState.length; i++) {
     data.push({
       key: i + 1,
       name: productState[i].title,
       category: productState[i].category,
-      brand: productState[i].brand,
+      price: `$${productState[i].price}`,
+      color: productState[i].color,
+      action: (
+        <>
+          <Link to="">
+            <BiEdit />
+          </Link>
+          <Link to="">
+            <AiOutlineDelete />
+          </Link>
+          
+        </>
+      ),
     });
   }
   return (
