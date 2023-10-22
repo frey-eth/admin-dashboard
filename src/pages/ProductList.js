@@ -24,9 +24,10 @@ const columns = [
 const ProductList = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getProducts);
+    dispatch(getProducts());
   }, []);
-  const productState = useSelector((state) => state.product.products);
+  const productState = useSelector((state) => state.product).products;
+  console.log(productState);
   const data = [];
   for (let i = 0; i < productState.length; i++) {
     data.push({
