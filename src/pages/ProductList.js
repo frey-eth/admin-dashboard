@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../features/product/ProductSlice";
 import { BiEdit } from "react-icons/bi";
 import { AiOutlineDelete } from "react-icons/ai";
-
 import { Link } from "react-router-dom";
 
 const columns = [
@@ -13,8 +12,8 @@ const columns = [
     dataIndex: "key",
   },
   {
-    title: "Name",
-    dataIndex: "name",
+    title: "Title",
+    dataIndex: "title",
   },
   {
     title: "Category",
@@ -38,24 +37,24 @@ const ProductList = () => {
   useEffect(() => {
     dispatch(getProducts());
   }, []);
+
   const productState = useSelector((state) => state.product.products);
   const data = [];
   for (let i = 0; i < productState.length; i++) {
     data.push({
       key: i + 1,
-      name: productState[i].title,
+      title: productState[i].title,
       category: productState[i].category,
       price: `$${productState[i].price}`,
       color: productState[i].color,
       action: (
         <>
-          <Link to="">
+          <Link to="" className="fs-3">
             <BiEdit />
           </Link>
-          <Link to="">
+          <Link to="" className="text-danger ps-3 fs-3" >
             <AiOutlineDelete />
           </Link>
-          
         </>
       ),
     });

@@ -1,5 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Table } from "antd";
+import { BiEdit } from "react-icons/bi";
+import { AiOutlineDelete } from "react-icons/ai";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getCategories } from "../features/productCategory/CategorySlice";
 
 const columns = [
   {
@@ -7,50 +12,39 @@ const columns = [
     dataIndex: "key",
   },
   {
-    title: "Name",
-    dataIndex: "name",
-  },
-  {
-    title: "Product",
-    dataIndex: "product",
-  },
-  {
-    title: "Status",
-    dataIndex: "status",
-  },
-];
-const dataOrder = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sydney No. 1 Lake Park",
-  },
-  {
-    key: "4",
-    name: "Disabled User",
-    age: 99,
-    address: "Sydney No. 1 Lake Park",
+    title: "Title",
+    dataIndex: "title",
   },
 ];
 
 const CategoryList = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getCategories());
+  }, []);
+  const categoryState = useSelector((state) => state.category.categories);
+  const data = [];
+  for (let i = 0; i < categoryState.length; i++) {
+    data.push({
+      key: i + 1,
+      title: categoryState[i].title,
+      action: (
+        <>
+          <Link to="" className="fs-3">
+            <BiEdit />
+          </Link>
+          <Link to="" className="text-danger ps-3 fs-3">
+            <AiOutlineDelete />
+          </Link>
+        </>
+      ),
+    });
+  }
+  console.log(data);
   return (
     <div>
       <h3 className="mt-4">Product Category</h3>
-      <Table columns={columns} dataSource={dataOrder} />
+      <Table columns={columns} dataSource={data} />
     </div>
   );
 };
