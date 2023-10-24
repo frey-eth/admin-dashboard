@@ -1,8 +1,5 @@
 import React, { useEffect } from "react";
 import { Table } from "antd";
-import { BiEdit } from "react-icons/bi";
-import { AiOutlineDelete } from "react-icons/ai";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrders } from "../features/auth/AuthSlice";
 const columns = [
@@ -38,7 +35,6 @@ const Orders = () => {
     dispatch(getOrders());
   }, []);
   const orderState = useSelector((state) => state.auth.orders);
-  console.log(orderState);
   const data = [];
   for (let i = 0; i < orderState.length; i++) {
     data.push({
