@@ -15,6 +15,10 @@ const columns = [
     title: "Title",
     dataIndex: "title",
   },
+  {
+    title: "Action",
+    dataIndex: "action",
+  },
 ];
 
 const CategoryList = () => {
@@ -40,7 +44,6 @@ const CategoryList = () => {
       ),
     });
   }
-  console.log(data);
   return (
     <div>
       <h3 className="mt-4">Product Category</h3>

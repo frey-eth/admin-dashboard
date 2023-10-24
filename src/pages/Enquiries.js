@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Table } from "antd";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getEnquiries } from "../features/enquiry/EnquirySlice";
+import { AiOutlineDelete } from "react-icons/ai";
 
 const columns = [
   {
@@ -11,46 +15,61 @@ const columns = [
     dataIndex: "name",
   },
   {
-    title: "Product",
-    dataIndex: "product",
+    title: "Email",
+    dataIndex: "email",
+  },
+  {
+    title: "Phone Number",
+    dataIndex: "phone",
+  },
+  {
+    title: "Comment",
+    dataIndex: "comment",
   },
   {
     title: "Status",
     dataIndex: "status",
   },
-];
-const dataOrder = [
   {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sydney No. 1 Lake Park",
-  },
-  {
-    key: "4",
-    name: "Disabled User",
-    age: 99,
-    address: "Sydney No. 1 Lake Park",
+    title: "Action",
+    dataIndex: "action",
   },
 ];
 
 const Enquiries = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getEnquiries());
+  }, []);
+  const enquiryState = useSelector((state) => state.enquiry.enquiries);
+  const data = [];
+  for (let i = 0; i < enquiryState.length; i++) {
+    data.push({
+      key: i + 1,
+      name: enquiryState[i].name,
+      email: enquiryState[i].email,
+      phone: enquiryState[i].mobile,
+      comment: enquiryState[i].comment,
+      status: (
+        <>
+          <select name="" id="" className="form-control form-select">
+            <option value="">Set status</option>
+          </select>
+        </>
+      ),
+      action: (
+        <>
+          <Link to="" className="text-danger fs-3">
+            <AiOutlineDelete />
+          </Link>
+        </>
+      ),
+    });
+  }
   return (
     <div>
       <h3 className="mt-4">Enquiry</h3>
-      <Table columns={columns} dataSource={dataOrder} />
+      <Table columns={columns} dataSource={data} />
     </div>
   );
 };

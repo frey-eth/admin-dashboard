@@ -1,57 +1,63 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Table } from "antd";
-
+import { BiEdit } from "react-icons/bi";
+import { AiOutlineDelete } from "react-icons/ai";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getBlogs } from "../features/blog/BlogSlice";
 const columns = [
   {
     title: "No.",
     dataIndex: "key",
   },
   {
-    title: "Name",
-    dataIndex: "name",
+    title: "Title",
+    dataIndex: "title",
   },
   {
-    title: "Product",
-    dataIndex: "product",
+    title: "Description",
+    dataIndex: "description",
   },
   {
-    title: "Status",
-    dataIndex: "status",
-  },
-];
-const dataOrder = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
+    title: "Author",
+    dataIndex: "author",
   },
   {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sydney No. 1 Lake Park",
-  },
-  {
-    key: "4",
-    name: "Disabled User",
-    age: 99,
-    address: "Sydney No. 1 Lake Park",
-  },
+    title : "Action",
+    dataIndex: "action"
+  }
 ];
 
 const BlogList = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getBlogs());
+  }, []);
+  const blogState = useSelector((state) => state.blog.blogs);
+  const data = [];
+  for (let i = 0; i < blogState.length; i++) {
+    data.push({
+      key: i + 1,
+      title: blogState[i].title,
+      description: blogState[i].description,
+      author: blogState[i].author,
+      action: (
+        <>
+          <Link to="" className="fs-3">
+            <BiEdit />
+          </Link>
+          <Link to="" className="text-danger ps-3 fs-3">
+            <AiOutlineDelete />
+          </Link>
+        </>
+      ),
+    });
+  }
   return (
     <div>
       <h3 className="my-3">Blog List </h3>
       <div className="">
-        <Table columns={columns} dataSource={dataOrder} />
+        <Table columns={columns} dataSource={data} />
       </div>
     </div>
   );

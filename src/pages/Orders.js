@@ -1,56 +1,63 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Table } from "antd";
-
+import { BiEdit } from "react-icons/bi";
+import { AiOutlineDelete } from "react-icons/ai";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getOrders } from "../features/auth/AuthSlice";
 const columns = [
   {
     title: "No.",
     dataIndex: "key",
   },
   {
-    title: "Name",
-    dataIndex: "name",
+    title: "Order By",
+    dataIndex: "orderBy",
   },
   {
     title: "Product",
-    dataIndex: "product",
+    dataIndex: "products",
+  },
+  {
+    title: "Amount",
+    dataIndex: "amount",
+  },
+  {
+    title: "Date",
+    dataIndex: "date",
   },
   {
     title: "Status",
     dataIndex: "status",
   },
 ];
-const dataOrder = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sydney No. 1 Lake Park",
-  },
-  {
-    key: "4",
-    name: "Disabled User",
-    age: 99,
-    address: "Sydney No. 1 Lake Park",
-  },
-];
 
 const Orders = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getOrders());
+  }, []);
+  const orderState = useSelector((state) => state.auth.orders);
+  console.log(orderState);
+  const data = [];
+  for (let i = 0; i < orderState.length; i++) {
+    data.push({
+      key: i + 1,
+      orderBy: orderState[i].orderBy.name,
+      products: orderState[i].products.map((product) => (
+        <p className="badge bg-dark mx-1 align-items-center p-2">
+          {product.product.title}
+        </p>
+      )),
+      amount: `$${orderState[i].paymentIntent.amount}`,
+      date: new Date(orderState[i].createdAt).toLocaleString(),
+      status: orderState[i].orderStatus,
+    });
+  }
   return (
     <div>
       <h3 className="mt-4">Orders</h3>
-      <Table columns={columns} dataSource={dataOrder} />
+      <Table columns={columns} dataSource={data} />
     </div>
   );
 };
