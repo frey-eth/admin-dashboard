@@ -11,7 +11,7 @@ import { getColors } from "../features/color/ColorSlice";
 import Multiselect from "react-widgets/Multiselect";
 import "react-widgets/styles.css";
 import Dropzone from "react-dropzone";
-
+import { TiUpload } from "react-icons/ti";
 let schema = yup.object().shape({
   title: yup.string().required("Title is Required"),
   description: yup.string().required("Description is Required"),
@@ -142,12 +142,13 @@ const AddProduct = () => {
             value={formik.values.quantify}
           />
         </div>
-        <div className="bg-white border-1 p-5 text-center">
+        <div className="bg-white border-1 p-4 text-center">
           <Dropzone onDrop={(acceptedFiles) => console.log(acceptedFiles)}>
             {({ getRootProps, getInputProps }) => (
               <section>
                 <div {...getRootProps()}>
                   <input {...getInputProps()} />
+                  <TiUpload className="fs-1"/>
                   <p>Drag 'n' drop some files here, or click to select files</p>
                 </div>
               </section>
