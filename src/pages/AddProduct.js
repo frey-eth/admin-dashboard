@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import CustomInput from "../components/CustomInput";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import * as yup from "yup";
-import { useFormik, useField } from "formik";
+import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { getBrands } from "../features/brand/BrandSlice";
 import { getCategories } from "../features/productCategory/CategorySlice";
@@ -12,10 +12,21 @@ import Multiselect from "react-widgets/Multiselect";
 import "react-widgets/styles.css";
 import Dropzone from "react-dropzone";
 import { TiUpload } from "react-icons/ti";
+import { deleteImg, uploadImg } from "../features/upload/uploadSlice";
+import { createProduct } from "../features/product/ProductSlice";
+import { toast } from "react-toastify";
+
 let schema = yup.object().shape({
   title: yup.string().required("Title is Required"),
   description: yup.string().required("Description is Required"),
   price: yup.number().required("Price is Required"),
+  brand: yup.string().required("Brand is Required"),
+  category: yup.string().required("Category is Required"),
+  color: yup
+    .array()
+    .min(1, "Pick at least one color")
+    .required("Color is Required"),
+  quantity: yup.number().required("Quantity is Required"),
 });
 
 const AddProduct = () => {
@@ -28,24 +39,44 @@ const AddProduct = () => {
   const brandState = useSelector((state) => state.brand.brands);
   const categoryState = useSelector((state) => state.category.categories);
   const colorState = useSelector((state) => state.color.colors);
-  const [color, setColor] = useState([]);
+  const imgState = useSelector((state) => state.upload.images);
+  const newProduct = useSelector((state) => state.product);
+  const { isSuccess, isError, isLoading, createdProduct } = newProduct;
+  useEffect(() => {
+    if (isSuccess && createdProduct) {
+      toast.success("Product Added Successfullly!");
+    }
+    if (isError) {
+      toast.error("Something Went Wrong!");
+    }
+  }, [isSuccess, isError, isLoading]);
   const colors = [];
   colorState.forEach((color) => {
     colors.push({ _id: color._id, color: color.title });
   });
+  const imgs = [];
+  imgState.forEach((img) => {
+    imgs.push({ public_id: img.public_id, url: img.url });
+  });
+  useEffect(() => {
+    formik.values.images = imgs;
+  }, [imgs]);
   const formik = useFormik({
     initialValues: {
       title: "",
       description: "",
+      slug: "",
       price: "",
       brand: "",
       category: "",
       color: [],
       quantify: "",
+      images: [],
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values));
+      dispatch(createProduct(values));
+      formik.resetForm();
     },
   });
 
@@ -129,7 +160,7 @@ const AddProduct = () => {
             textField="color"
             value={formik.values.color} // Set the value to formik's value
             data={colors}
-            onChange={(value) => formik.setFieldValue("color", value.title)} // Use setFieldValue to update the color field in formik
+            onChange={(value) => formik.setFieldValue("color", value)} // Use setFieldValue to update the color field in formik
           />
         </div>
         <div className="mb-3">
@@ -143,17 +174,38 @@ const AddProduct = () => {
           />
         </div>
         <div className="bg-white border-1 p-4 text-center">
-          <Dropzone onDrop={(acceptedFiles) => console.log(acceptedFiles)}>
+          <Dropzone
+            onDrop={(acceptedFiles) => dispatch(uploadImg(acceptedFiles))}
+          >
             {({ getRootProps, getInputProps }) => (
               <section>
                 <div {...getRootProps()}>
                   <input {...getInputProps()} />
-                  <TiUpload className="fs-1"/>
+                  <TiUpload className="fs-1" />
                   <p>Drag 'n' drop some files here, or click to select files</p>
                 </div>
               </section>
             )}
           </Dropzone>
+        </div>
+        <div className="show-images d-flex flex-wrap gap-3">
+          {imgState?.map((image, index) => {
+            return (
+              <div className="position-relative" key={index}>
+                <button
+                  onClick={() => dispatch(deleteImg(image.public_id))}
+                  className="btn-close position-absolute"
+                  style={{ top: "7px", right: "7px" }}
+                ></button>
+                <img
+                  src={image.url}
+                  className="d-flex"
+                  height={200}
+                  width={"auto"}
+                />
+              </div>
+            );
+          })}
         </div>
         <button
           className="btn btn-success border-0 rounded-3 my-3"
