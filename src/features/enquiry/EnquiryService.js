@@ -1,5 +1,6 @@
 import axios from "axios";
 import { baseUrl } from "../../utils/base_url";
+import { config } from "../../utils/axios_config";
 
 const getEnquiries = async () => {
   const authToken = JSON.parse(localStorage.getItem("user")).token;

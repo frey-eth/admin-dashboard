@@ -1,5 +1,6 @@
 import axios from "axios";
 import { baseUrl } from "../../utils/base_url";
+import { config } from "../../utils/axios_config";
 
 const getBlogs = async () => {
   const response = await axios.get(`${baseUrl}blog`);
@@ -7,7 +8,7 @@ const getBlogs = async () => {
 };
 
 const blogService = {
-    getBlogs
-}
+  getBlogs,
+};
 
-export default blogService
+export default blogService;

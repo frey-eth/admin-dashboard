@@ -3,6 +3,7 @@ import CustomInput from "../components/CustomInput";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import * as yup from "yup";
+import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { getBrands } from "../features/brand/BrandSlice";
@@ -13,7 +14,7 @@ import "react-widgets/styles.css";
 import Dropzone from "react-dropzone";
 import { TiUpload } from "react-icons/ti";
 import { deleteImg, uploadImg } from "../features/upload/uploadSlice";
-import { createProduct } from "../features/product/ProductSlice";
+import { createProduct, resetState } from "../features/product/ProductSlice";
 import { toast } from "react-toastify";
 
 let schema = yup.object().shape({
@@ -22,11 +23,7 @@ let schema = yup.object().shape({
   price: yup.number().required("Price is Required"),
   brand: yup.string().required("Brand is Required"),
   category: yup.string().required("Category is Required"),
-  color: yup
-    .array()
-    .min(1, "Pick at least one color")
-    .required("Color is Required"),
-  quantity: yup.number().required("Quantity is Required"),
+  tag: yup.string().required("Tag is Required"),
 });
 
 const AddProduct = () => {
@@ -36,6 +33,7 @@ const AddProduct = () => {
     dispatch(getCategories());
     dispatch(getColors());
   }, []);
+  const navigate = useNavigate();
   const brandState = useSelector((state) => state.brand.brands);
   const categoryState = useSelector((state) => state.category.categories);
   const colorState = useSelector((state) => state.color.colors);
@@ -44,10 +42,10 @@ const AddProduct = () => {
   const { isSuccess, isError, isLoading, createdProduct } = newProduct;
   useEffect(() => {
     if (isSuccess && createdProduct) {
-      toast.success("Product Added Successfullly!");
+      toast.success("Product added successfully!");
     }
     if (isError) {
-      toast.error("Something Went Wrong!");
+      toast.error("Something went wrong");
     }
   }, [isSuccess, isError, isLoading]);
   const colors = [];
@@ -65,9 +63,9 @@ const AddProduct = () => {
     initialValues: {
       title: "",
       description: "",
-      slug: "",
       price: "",
       brand: "",
+      tag: "",
       category: "",
       color: [],
       quantify: "",
@@ -77,6 +75,9 @@ const AddProduct = () => {
     onSubmit: (values) => {
       dispatch(createProduct(values));
       formik.resetForm();
+      setTimeout(() => {
+        navigate("/admin/list-product");
+      }, 3000);
     },
   });
 
@@ -134,6 +135,24 @@ const AddProduct = () => {
                 {category.title}
               </option>
             ))}
+          </select>
+        </div>
+        <div className="mb-3">
+          <span>Tags</span>
+          <select
+            className="form-control"
+            name="tag"
+            id="tag"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.tag}
+          >
+            <option value="" disabled>
+              Select Tags
+            </option>
+            <option value="featured">Feature</option>
+            <option value="popular">Popular</option>
+            <option value="special">Special</option>
           </select>
         </div>
         <div className="mb-3">

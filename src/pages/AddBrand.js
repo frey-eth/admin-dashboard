@@ -1,6 +1,7 @@
 import React from "react";
 import CustomInput from "../components/CustomInput";
 
+
 const AddBrand = () => {
   return (
     <div>

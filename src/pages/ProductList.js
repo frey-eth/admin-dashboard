@@ -37,7 +37,6 @@ const ProductList = () => {
   useEffect(() => {
     dispatch(getProducts());
   }, []);
-
   const productState = useSelector((state) => state.product.products);
   const data = [];
   for (let i = 0; i < productState.length; i++) {
@@ -46,13 +45,13 @@ const ProductList = () => {
       title: productState[i].title,
       category: productState[i].category,
       price: `$${productState[i].price}`,
-      color: productState[i].color,
+      // color: <>{console.log(productState[i].color)}</>,
       action: (
         <>
           <Link to="" className="fs-3">
             <BiEdit />
           </Link>
-          <Link to="" className="text-danger ps-3 fs-3" >
+          <Link to="" className="text-danger ps-3 fs-3">
             <AiOutlineDelete />
           </Link>
         </>
@@ -60,10 +59,12 @@ const ProductList = () => {
     });
   }
   return (
-    <div>
-      <h3 className="mt-4">Product List</h3>
-      <Table columns={columns} dataSource={data} />
-    </div>
+    <>
+      <div>
+        <h3 className="mt-4">Product List</h3>
+        <Table columns={columns} dataSource={data} />
+      </div>
+    </>
   );
 };
 

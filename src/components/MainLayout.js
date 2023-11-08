@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,

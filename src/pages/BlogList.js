@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Table } from "antd";
 import { BiEdit } from "react-icons/bi";
 import { AiOutlineDelete } from "react-icons/ai";
@@ -23,9 +23,9 @@ const columns = [
     dataIndex: "author",
   },
   {
-    title : "Action",
-    dataIndex: "action"
-  }
+    title: "Action",
+    dataIndex: "action",
+  },
 ];
 
 const BlogList = () => {

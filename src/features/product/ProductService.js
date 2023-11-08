@@ -8,7 +8,11 @@ const getProducts = async () => {
 };
 
 const createProduct = async (product) => {
-  const response = await axios.post(`${baseUrl}product/`,product, config);
+  const response = await axios.post(
+    `${baseUrl}product/create`,
+    product,
+    config
+  );
   return response.data;
 };
 
