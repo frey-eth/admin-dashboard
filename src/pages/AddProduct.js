@@ -76,6 +76,7 @@ const AddProduct = () => {
       dispatch(createProduct(values));
       formik.resetForm();
       setTimeout(() => {
+        dispatch(resetState())
         navigate("/admin/list-product");
       }, 3000);
     },

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { useFormik } from "formik";
-import { createCategory } from "../features/productCategory/CategorySlice";
+import { createCategory, resetState } from "../features/productCategory/CategorySlice";
 let schema = yup.object().shape({
   title: yup.string().required("Title is Required"),
 });
@@ -32,6 +32,7 @@ const AddCategory = () => {
       dispatch(createCategory(values));
       formik.resetForm();
       setTimeout(() => {
+        dispatch(resetState())
         navigate("/admin/list-category");
       }, 3000);
     },

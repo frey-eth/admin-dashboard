@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { useFormik } from "formik";
-import { createBlogCategory } from "../features/blogCategory/blogCategorySlice";
+import { createBlogCategory, resetState } from "../features/blogCategory/blogCategorySlice";
 
 let schema = yup.object().shape({
   title: yup.string().required("Title is Required"),
@@ -33,6 +33,7 @@ const AddBlogCategory = () => {
       dispatch(createBlogCategory(values));
       formik.resetForm();
       setTimeout(() => {
+        dispatch(resetState())
         navigate("/admin/blog-category-list");
       }, 3000);
     },

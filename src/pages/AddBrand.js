@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { useFormik } from "formik";
-import { createBrand } from "../features/brand/BrandSlice";
+import { createBrand, resetState } from "../features/brand/BrandSlice";
 
 let schema = yup.object().shape({
   title: yup.string().required("Title is Required"),
@@ -33,6 +33,7 @@ const AddBrand = () => {
       dispatch(createBrand(values));
       formik.resetForm();
       setTimeout(() => {
+        dispatch(resetState())
         navigate("/admin/list-brand");
       }, 3000);
     },

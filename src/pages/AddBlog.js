@@ -11,7 +11,7 @@ import { TiUpload } from "react-icons/ti";
 import { deleteImg, uploadImg } from "../features/upload/uploadSlice";
 import { getBlogCategories } from "../features/blogCategory/blogCategorySlice";
 import { toast } from "react-toastify";
-import { createBlog } from "../features/blog/BlogSlice";
+import { createBlog, resetState } from "../features/blog/BlogSlice";
 
 let schema = yup.object().shape({
   title: yup.string().required("Title is Required"),
@@ -49,6 +49,7 @@ const AddBlog = () => {
       dispatch(createBlog(values));
       formik.resetForm();
       setTimeout(() => {
+        dispatch(resetState());
         navigate("/admin/blog-list");
       }, 3000);
     },

@@ -12,6 +12,7 @@ import {
   MdProductionQuantityLimits,
   MdOutlineNotifications,
 } from "react-icons/md";
+import { RiCoupon2Line } from "react-icons/ri";
 import {
   TbBrandBlogger,
   TbCategory,
@@ -121,6 +122,23 @@ const MainLayout = () => {
               label: "Orders",
             },
             {
+              key: "coupons",
+              icon: <RiCoupon2Line />,
+              label: "Coupons",
+              children: [
+                 {
+                  key: "coupon",
+                  icon: <ImBlog />,
+                  label: "Add Coupon",
+                },
+                {
+                  key: "coupon-list",
+                  icon: <RiCoupon2Line />,
+                  label: "Coupon List",
+                },
+              ]
+            },
+            {
               key: "blog",
               icon: <BsChatLeftHeart />,
               label: "Blogs",
@@ -173,50 +191,45 @@ const MainLayout = () => {
               height: 64,
             }}
           />
-          <div className="d-flex gap-3 align-items-center m-1">
-            <div className="m-2 position-relative">
-              <MdOutlineNotifications />
+          <div className="d-flex gap-4 align-items-center">
+            <div className="position-relative">
+              <MdOutlineNotifications className="fs-4" />
               <span className="badge bg-warning rounded-circle p-1 position-absolute">
                 3
               </span>
             </div>
-            <div className="d-flex gap-3 align-items-center">
+            <div className="d-flex gap-3 align-items-center dropdown">
               <div>
-                <h5 className="mb-0">Pham Van Duong</h5>
+                <UserOutlined className="fs-4" />
+              </div>
+              <div
+                role="button"
+                id="dropdownMenuLink"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <h5 className="mb-0">Phạm Văn Dương</h5>
                 <p className="mb-0">example@example.com</p>
               </div>
-              <div className="dropdown">
-                <div
-                  role="button"
-                  id="dropdownMenuLink"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <UserOutlined />
-                </div>
-                <div
-                  className="dropdown-menu"
-                  aria-labelledby="dropdownMenuLink"
-                >
-                  <li>
-                    <Link
-                      className="dropdown-item py-1 mb-1"
-                      style={{ height: "auto", lineHeight: "20px" }}
-                      to="/"
-                    >
-                      View Profile
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      className="dropdown-item py-1 mb-1"
-                      style={{ height: "auto", lineHeight: "20px" }}
-                      to="/"
-                    >
-                      Signout
-                    </Link>
-                  </li>
-                </div>
+              <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li>
+                  <Link
+                    className="dropdown-item py-1 mb-1"
+                    style={{ height: "auto", lineHeight: "20px" }}
+                    to="/"
+                  >
+                    View Profile
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="dropdown-item py-1 mb-1"
+                    style={{ height: "auto", lineHeight: "20px" }}
+                    to="/"
+                  >
+                    Signout
+                  </Link>
+                </li>
               </div>
             </div>
           </div>
