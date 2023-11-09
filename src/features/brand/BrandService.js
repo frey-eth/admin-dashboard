@@ -8,7 +8,7 @@ const getBrands = async () => {
 };
 
 const createBrand = async (brand) => {
-  const response = await axios.post(`${baseUrl}brand`, brand, config);
+  const response = await axios.post(`${baseUrl}brand/`, brand, config);
   return response.data;
 };
 

@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import colorService from "./ColorService";
 
 export const getColors = createAsyncThunk(
@@ -11,6 +11,18 @@ export const getColors = createAsyncThunk(
     }
   }
 );
+
+export const createColor = createAsyncThunk(
+  "product-color/create-color",
+  async (dataColor, thunkAPi) => {
+    try {
+      return await colorService.createColor(dataColor);
+    } catch (error) {
+      return thunkAPi.rejectWithValue(error);
+    }
+  }
+);
+export const resetState = createAction("Reset_all");
 
 const initialState = {
   colors: [],
@@ -40,7 +52,23 @@ export const colorSlice = createSlice({
         state.isSuccess = false;
         state.isError = true;
         state.message = action.error;
-      });
+      })
+      .addCase(createColor.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createColor.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        state.createdColor = action.payload;
+      })
+      .addCase(createColor.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+        state.message = action.error;
+      })
+      .addCase(resetState, () => initialState);
   },
 });
 
