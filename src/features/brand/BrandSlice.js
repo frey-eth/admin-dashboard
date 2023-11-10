@@ -23,6 +23,39 @@ export const createBrand = createAsyncThunk(
   }
 );
 
+export const getBrand = createAsyncThunk(
+  "brand/get-brand",
+  async (id, thunkAPi) => {
+    try {
+      return await brandService.getBrand(id);
+    } catch (error) {
+      return thunkAPi.rejectWithValue(error);
+    }
+  }
+);
+
+export const deleteBrand = createAsyncThunk(
+  "brand/delete-brand",
+  async (id, thunkAPi) => {
+    try {
+      return await brandService.deleteBrand(id);
+    } catch (error) {
+      return thunkAPi.rejectWithValue(error);
+    }
+  }
+);
+
+export const updateBrand = createAsyncThunk(
+  "brand/update-brand",
+  async (brand, thunkAPi) => {
+    try {
+      return await brandService.updateBrand(brand);
+    } catch (error) {
+      return thunkAPi.rejectWithValue(error);
+    }
+  }
+);
+
 export const resetState = createAction("Reset_all");
 
 const initialState = {
@@ -64,6 +97,57 @@ export const brandSlice = createSlice({
         state.createdBrand = action.payload;
       })
       .addCase(createBrand.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+        state.message = action.error;
+      })
+      .addCase(getBrand.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getBrand.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        state.brand = action.payload;
+      })
+      .addCase(getBrand.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+        state.message = action.error;
+      })
+      .addCase(deleteBrand.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteBrand.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        state.deletedBrand = action.payload;
+        state.brands = state.brands.filter(
+          (brand) => brand._id !== action.payload._id
+        );
+      })
+      .addCase(deleteBrand.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+        state.message = action.error;
+      })
+      .addCase(updateBrand.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateBrand.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        state.updatedBrand = action.payload;
+        state.brands = state.brands.map((brand) =>
+          brand._id === action.payload._id ? action.payload : brand
+        );
+      })
+      .addCase(updateBrand.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
         state.isError = true;
