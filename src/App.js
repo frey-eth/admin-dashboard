@@ -33,21 +33,28 @@ function App() {
           <Route index element={<Dashboard />} />
           <Route path="enquiries" element={<Enquiries />} />
           <Route path="blog-list" element={<BlogList />} />
+          <Route path="blog-list/:id" element={<BlogList />} />
           <Route path="blog-category-list" element={<BlogCategory />} />
           <Route path="orders" element={<Orders />} />
           <Route path="customers" element={<Customers />} />
           <Route path="color" element={<AddColor />} />
+          <Route path="color/:id" element={<AddColor />} />
           <Route path="list-color" element={<ColorList />} />
           <Route path="category" element={<AddCategory />} />
+          <Route path="category/:id" element={<AddCategory />} />
           <Route path="list-category" element={<CategoryList />} />
           <Route path="brand" element={<AddBrand />} />
           <Route path="brand/:id" element={<AddBrand />} />
           <Route path="list-brand" element={<BrandList />} />
           <Route path="product" element={<AddProduct />} />
+          <Route path="product/:id" element={<AddProduct />} />
           <Route path="list-product" element={<ProductList />} />
           <Route path="blog" element={<AddBlog />} />
+          <Route path="blog/:id" element={<AddBlog />} />
           <Route path="blog-category" element={<AddBlogCategory />} />
+          <Route path="blog-category/:id" element={<AddBlogCategory />} />
           <Route path="coupon" element={<AddCoupon />} />
+          <Route path="coupon/:id" element={<AddCoupon />} />
           <Route path="coupon-list" element={<Coupon />} />
         </Route>
       </Routes>

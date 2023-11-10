@@ -22,33 +22,41 @@ const AddBrand = () => {
   const navigate = useNavigate();
   const getBrandId = location.pathname.split("/")[3];
   const newBrand = useSelector((state) => state.brand);
-  const { isSuccess, isError, isLoading, createdBrand, brand, updatedBrand } =
-    newBrand;
+  const {
+    isSuccess,
+    isError,
+    isLoading,
+    createdBrand,
+    dataBrand,
+    updatedBrand,
+  } = newBrand;
 
   useEffect(() => {
     if (getBrandId !== undefined) {
       dispatch(getBrand(getBrandId));
-      formik.values.title = brand.title;
-    } else {
-      dispatch(resetState());
     }
   }, [getBrandId]);
+
   useEffect(() => {
     if (isSuccess && createdBrand) {
       toast.success("Brand added successfully!");
       navigate("/admin/list-brand");
+      dispatch(resetState());
     }
     if (isSuccess && updatedBrand) {
       toast.success("Brand Updated Successfullly!");
       navigate("/admin/list-brand");
+      dispatch(resetState());
     }
     if (isError) {
       toast.error("Something went wrong");
     }
   }, [isSuccess, isError, isLoading]);
+
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      title: "",
+      title: dataBrand?.title || "",
     },
     validationSchema: schema,
     onSubmit: (values) => {
@@ -58,9 +66,6 @@ const AddBrand = () => {
       } else {
         dispatch(createBrand(values));
         formik.resetForm();
-        setTimeout(() => {
-          dispatch(resetState());
-        }, 300);
       }
     },
   });

@@ -25,7 +25,7 @@ const getBrand = async (id) => {
 const updateBrand = async (brand) => {
   const response = await axios.put(
     `${baseUrl}brand/${brand.id}`,
-    brand,
+    { title: brand.brandData.title },
     config
   );
   return response.data;

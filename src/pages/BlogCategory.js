@@ -1,11 +1,15 @@
 import React, { useEffect } from "react";
-import { Table } from "antd";
+import { Table, Modal } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { BiEdit } from "react-icons/bi";
 import { AiOutlineDelete } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import {getBlogCategories} from "../features/blogCategory/blogCategorySlice"
+import {
+  deleteBlogCategory,
+  getBlogCategories,
+} from "../features/blogCategory/blogCategorySlice";
 
+const { confirm } = Modal;
 const columns = [
   {
     title: "No.",
@@ -26,7 +30,20 @@ const BlogCategory = () => {
   useEffect(() => {
     dispatch(getBlogCategories());
   }, []);
-  const blogCategoryState = useSelector((state) => state.blogCategory.categories );
+
+  const showDeleteConfirm = (record) => {
+    confirm({
+      title: "Do you want to delete this item?",
+      content: `Brand: ${record.title}`,
+      onOk() {
+        dispatch(deleteBlogCategory(record._id));
+      },
+    });
+  };
+
+  const blogCategoryState = useSelector(
+    (state) => state.blogCategory.categories
+  );
   const data = [];
   for (let i = 0; i < blogCategoryState.length; i++) {
     data.push({
@@ -34,12 +51,20 @@ const BlogCategory = () => {
       title: blogCategoryState[i].title,
       action: (
         <>
-          <Link to="" className="fs-3">
+          <Link
+            to={`/admin/blog-category/${blogCategoryState[i]._id}`}
+            className="fs-3"
+          >
             <BiEdit />
           </Link>
-          <Link to="" className="text-danger ps-3 fs-3">
-            <AiOutlineDelete />
-          </Link>
+          <button className="text-danger ps-3 fs-3 bg-transparent border-0">
+            <span
+              className="text-danger ps-3 fs-3"
+              onClick={() => showDeleteConfirm(blogCategoryState[i])}
+            >
+              <AiOutlineDelete />
+            </span>
+          </button>
         </>
       ),
     });
@@ -47,7 +72,7 @@ const BlogCategory = () => {
   return (
     <div>
       <h3 className="mt-4">Blog Category List</h3>
-      <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={[...data]} />
     </div>
   );
 };
