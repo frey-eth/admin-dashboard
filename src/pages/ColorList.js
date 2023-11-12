@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
-import { Table } from "antd";
+import { Table, Modal } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { getColors } from "../features/color/ColorSlice";
+import { deleteColor, getColors } from "../features/color/ColorSlice";
 import { BiEdit } from "react-icons/bi";
 import { AiOutlineDelete } from "react-icons/ai";
 import { Link } from "react-router-dom";
+const { confirm } = Modal;
 
 const columns = [
   {
@@ -12,8 +13,12 @@ const columns = [
     dataIndex: "key",
   },
   {
-    title: "Name",
+    title: "Title",
     dataIndex: "title",
+  },
+  {
+    title: "Color Code",
+    dataIndex: "colorCode",
   },
   {
     title: "Action",
@@ -26,20 +31,35 @@ const ColorList = () => {
   useEffect(() => {
     dispatch(getColors());
   }, []);
+  const showDeleteConfirm = (record) => {
+    confirm({
+      title: "Do you want to delete this item?",
+      content: `Color: ${record.title}`,
+      onOk() {
+        dispatch(deleteColor(record._id));
+      },
+    });
+  };
   const colorState = useSelector((state) => state.color.colors);
   const data = [];
   for (let i = 0; i < colorState.length; i++) {
     data.push({
       key: i + 1,
       title: colorState[i].title,
+      colorCode: colorState[i].colorCode,
       action: (
         <>
-          <Link to="" className="fs-3">
+          <Link to={`/admin/color/${colorState[i]._id}`} className="fs-3">
             <BiEdit />
           </Link>
-          <Link to="" className="text-danger ps-3 fs-3">
-            <AiOutlineDelete />
-          </Link>
+          <button className="text-danger ps-3 fs-3 bg-transparent border-0">
+            <span
+              className="text-danger ps-3 fs-3"
+              onClick={() => showDeleteConfirm(colorState[i])}
+            >
+              <AiOutlineDelete />
+            </span>
+          </button>
         </>
       ),
     });
@@ -47,7 +67,7 @@ const ColorList = () => {
   return (
     <div>
       <h3 className="mt-4">Colors List</h3>
-      <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={[...data]} />
     </div>
   );
 };

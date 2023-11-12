@@ -87,6 +87,7 @@ export const categorySlice = createSlice({
         state.isError = true;
         state.message = action.error;
       })
+      //create category
       .addCase(createCategory.pending, (state) => {
         state.isLoading = true;
       })
