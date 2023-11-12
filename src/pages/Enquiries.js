@@ -1,9 +1,14 @@
-import React, { useEffect } from "react";
-import { Table } from "antd";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Table, Modal } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { getEnquiries } from "../features/enquiry/EnquirySlice";
+import {
+  deleteEnquiry,
+  getEnquiries,
+  resetState,
+  updateEquiry,
+} from "../features/enquiry/EnquirySlice";
 import { AiOutlineDelete } from "react-icons/ai";
+const { confirm } = Modal;
 
 const columns = [
   {
@@ -39,8 +44,17 @@ const columns = [
 const Enquiries = () => {
   const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(resetState());
     dispatch(getEnquiries());
   }, []);
+  const showDeleteConfirm = (record) => {
+    confirm({
+      title: "Do you want to delete this item?",
+      onOk() {
+        dispatch(deleteEnquiry(record._id));
+      },
+    });
+  };
   const enquiryState = useSelector((state) => state.enquiry.enquiries);
   const data = [];
   for (let i = 0; i < enquiryState.length; i++) {
@@ -52,24 +66,48 @@ const Enquiries = () => {
       comment: enquiryState[i].comment,
       status: (
         <>
-          <select name="" id="" className="form-control form-select">
-            <option value="">Set status</option>
+          <select
+            name=""
+            id=""
+            className="form-control form-select"
+            defaultValue={
+              enquiryState[i].status ? enquiryState[i].status : "Submitted"
+            }
+            onChange={(e) =>
+              setEnquiryStatus(e.target.value, enquiryState[i]._id)
+            }
+          >
+            <option value="Submitted">Submitted</option>
+            <option value="Contacted">Contacted</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Resolved">Resolved</option>{" "}
           </select>
         </>
       ),
       action: (
         <>
-          <Link to="" className="text-danger fs-3">
-            <AiOutlineDelete />
-          </Link>
+          <button className="text-danger fs-3 ps-3 bg-transparent border-0">
+            <span
+              className="text-danger ps-3 fs-3"
+              onClick={() => showDeleteConfirm(enquiryState[i])}
+            >
+              <AiOutlineDelete />
+            </span>
+          </button>
         </>
       ),
     });
   }
+
+  const setEnquiryStatus = (e, i) => {
+    const data = { id: i, enqData: e };
+    dispatch(updateEquiry(data));
+  };
+
   return (
     <div>
       <h3 className="mt-4">Enquiry</h3>
-      <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={[...data]} />
     </div>
   );
 };

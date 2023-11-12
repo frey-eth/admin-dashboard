@@ -35,6 +35,8 @@ const AddBlogCategory = () => {
   useEffect(() => {
     if (getBlogCatId !== undefined) {
       dispatch(getBlogCategory(getBlogCatId));
+    } else {
+      dispatch(resetState());
     }
   }, [getBlogCatId]);
 
