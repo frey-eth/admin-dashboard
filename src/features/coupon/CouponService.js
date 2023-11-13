@@ -12,9 +12,31 @@ const createCoupon = async (coupon) => {
   return response.data;
 };
 
+const getCoupon = async (id) => {
+  const response = await axios.get(`${baseUrl}coupon/${id}`, config);
+  return response.data;
+};
+
+const deleteCoupon = async (id) => {
+  const response = await axios.delete(`${baseUrl}coupon/${id}`, config);
+  return response.data;
+};
+
+const updateCoupon = async (couponData) => {
+  const response = await axios.put(
+    `${baseUrl}coupon/${couponData._id}`,
+    couponData,
+    config
+  );
+  return response.data;
+};
+
 const counponService = {
   getCoupons,
   createCoupon,
+  getCoupon,
+  updateCoupon,
+  deleteCoupon,
 };
 
 export default counponService;

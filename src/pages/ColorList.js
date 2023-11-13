@@ -5,6 +5,7 @@ import { deleteColor, getColors } from "../features/color/ColorSlice";
 import { BiEdit } from "react-icons/bi";
 import { AiOutlineDelete } from "react-icons/ai";
 import { Link } from "react-router-dom";
+
 const { confirm } = Modal;
 
 const columns = [

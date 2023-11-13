@@ -44,7 +44,7 @@ const AddColor = () => {
       navigate("/admin/list-color");
       dispatch(resetState());
     }
-    if (isSuccess && createdColor) {
+    if (isSuccess && updatedColor) {
       toast.success("Color added successfully!");
       navigate("/admin/list-color");
       dispatch(resetState());
@@ -87,7 +87,7 @@ const AddColor = () => {
         </div>
 
         <CustomInput
-          label="Enter Category"
+          label="Color"
           type="color"
           name="colorCode"
           onChange={formik.handleChange}
