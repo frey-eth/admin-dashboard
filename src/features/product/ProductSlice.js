@@ -100,22 +100,6 @@ export const productSlice = createSlice({
         state.isError = true;
         state.message = action.error;
       })
-      //get
-      .addCase(getProduct.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(getProduct.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.isError = false;
-        state.productData = action.payload;
-      })
-      .addCase(getProduct.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = false;
-        state.isError = true;
-        state.message = action.error;
-      })
       //delete
       .addCase(deleteProduct.pending, (state) => {
         state.isLoading = true;
@@ -124,11 +108,28 @@ export const productSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.isError = false;
+        console.log(action.payload);
         state.products = state.products.filter(
-          (product) => product._id !== action.payload._id
+          (product) => product._id !== action.payload.deleteProduct._id
         );
       })
       .addCase(deleteProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+        state.message = action.error;
+      })
+      //get
+      .addCase(getProduct.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getProduct.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        state.productData = action.payload.product;
+      })
+      .addCase(getProduct.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
         state.isError = true;
