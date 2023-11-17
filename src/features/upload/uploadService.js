@@ -8,7 +8,6 @@ const uploadImg = async (data) => {
 };
 
 const deleteImg = async (id) => {
-  console.log(response);
   const response = await axios.delete(`${baseUrl}upload/${id}`, config);
   return response.data;
 };

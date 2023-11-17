@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import CustomInput from "../components/CustomInput";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -35,7 +35,6 @@ const AddProduct = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const getProductId = location.pathname.split("/")[3];
-
   useEffect(() => {
     if (getProductId !== undefined) {
       dispatch(getProduct(getProductId));
@@ -96,7 +95,7 @@ const AddProduct = () => {
       category: productData?.category || "",
       color: productData?.color || [],
       quantity: productData?.quantity || "",
-      images: [],
+      images: productData?.images || [],
     },
     validationSchema: schema,
     onSubmit: (values) => {
@@ -108,18 +107,6 @@ const AddProduct = () => {
       }
     },
   });
-
-  useEffect(() => {
-    const existingImages = productData?.images || [];
-    const formattedImages = existingImages.map((img) => ({
-      public_id: img.public_id || "",
-      url: img.url || "",
-      _id: img._id || "",
-    }));
-    // Combine existing and newly uploaded images
-    const updatedImages = [...formattedImages, ...imgState];
-    formik.setFieldValue("images", updatedImages);
-  }, [imgState, productData]);
 
   return (
     <div>
@@ -237,7 +224,12 @@ const AddProduct = () => {
         </div>
         <div className="bg-white border-1 p-4 text-center">
           <Dropzone
-            onDrop={(acceptedFiles) => dispatch(uploadImg(acceptedFiles))}
+            onDrop={(acceptedFiles) =>
+              dispatch(uploadImg(acceptedFiles)).then(() => {
+                const updatedImage = [...formik.values.images, ...imgState];
+                formik.setFieldValue("images", updatedImage);
+              })
+            }
           >
             {({ getRootProps, getInputProps }) => (
               <section>
@@ -256,7 +248,13 @@ const AddProduct = () => {
               <div className="position-relative" key={index}>
                 <div
                   type="button"
-                  onClick={() => dispatch(deleteImg(image.public_id))}
+                  onClick={() => {
+                    dispatch(deleteImg(image.public_id));
+                    const images = formik.values.images.filter(
+                      (img) => img.public_id !== image.public_id
+                    );
+                    formik.setFieldValue("images", images);
+                  }}
                   className="btn-close position-absolute"
                   style={{ top: "7px", right: "7px" }}
                 ></div>
