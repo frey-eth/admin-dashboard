@@ -9,8 +9,6 @@ export const getBlogs = createAsyncThunk("blog/get-blogs", async (thunkAPi) => {
   }
 });
 
-export const resetState = createAction("Reset_all");
-
 export const createBlog = createAsyncThunk(
   "Blog/create",
   async (blog, thunkAPi) => {
@@ -21,6 +19,38 @@ export const createBlog = createAsyncThunk(
     }
   }
 );
+
+export const getBlog = createAsyncThunk("blog/get", async (id, thunkAPi) => {
+  try {
+    return await blogService.getBlog(id);
+  } catch (error) {
+    return thunkAPi.rejectWithValue(error);
+  }
+});
+
+export const deleteBlog = createAsyncThunk(
+  "blog/delete",
+  async (id, thunkAPi) => {
+    try {
+      return await blogService.deleteBlog(id);
+    } catch (error) {
+      return thunkAPi.rejectWithValue(error);
+    }
+  }
+);
+
+export const updateBlog = createAsyncThunk(
+  "blog/update",
+  async (blogData, thunkAPi) => {
+    try {
+      return await blogService.updateBlog(blogData);
+    } catch (error) {
+      return thunkAPi.rejectWithValue(error);
+    }
+  }
+);
+
+export const resetState = createAction("Reset_all");
 
 const initialState = {
   blogs: [],
@@ -66,6 +96,60 @@ export const blogSlice = createSlice({
         state.isError = true;
         state.message = action.error;
       })
+      //getBlog
+      .addCase(getBlog.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getBlog.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        state.blogData = action.payload;
+      })
+      .addCase(getBlog.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+        state.message = action.error;
+      })
+      //deleteBlog
+      .addCase(deleteBlog.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteBlog.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        state.blogs = state.blogs.filter(
+          (blog) => blog._id !== action.payload._id
+        );
+      })
+      .addCase(deleteBlog.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+        state.message = action.error;
+      })
+      //update Blog
+      .addCase(updateBlog.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateBlog.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        state.updatedBlog = action.payload;
+        state.blogs = state.blogs.map((blog) =>
+          blog._id == action.payload._id ? action.payload : blog
+        );
+      })
+      .addCase(updateBlog.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+        state.message = action.error;
+      })
+
       .addCase(resetState, () => initialState);
   },
 });

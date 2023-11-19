@@ -18,7 +18,7 @@ import {
   createProduct,
   getProduct,
   resetState,
-  updateProduct,
+  updateProduct, 
 } from "../features/product/ProductSlice";
 import { toast } from "react-toastify";
 
@@ -73,12 +73,10 @@ const AddProduct = () => {
       dispatch(resetState());
       navigate("/admin/list-product");
     }
-
     if (isError) {
       toast.error("Something went wrong");
     }
   }, [isSuccess, isError, isLoading]);
-
   const colors = [];
   colorState.forEach((color) => {
     colors.push({ _id: color._id, color: color.title });

@@ -73,7 +73,7 @@ const ProductList = () => {
           </button>
         </>
       ),
-    }); 
+    });
   }
   return (
     <>
