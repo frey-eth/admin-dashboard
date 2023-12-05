@@ -54,19 +54,19 @@ const BlogList = () => {
       description: blogState[i].description,
       author: blogState[i].author,
       action: (
-        <>
+        <div className="justify-content-center align-content-center d-flex">
           <Link to={`/admin/blog/${blogState[i]._id}`} className="fs-3">
             <BiEdit />
           </Link>
-          <button className="text-danger ps-3 fs-3 bg-transparent border-0">
+          <button className="text-danger fs-3 bg-transparent border-0">
             <span
-              className="text-danger ps-3 fs-3"
+              className="text-danger fs-3"
               onClick={() => showDeleteConfirm(blogState[i])}
             >
               <AiOutlineDelete />
             </span>
           </button>
-        </>
+        </div>
       ),
     });
   }

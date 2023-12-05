@@ -55,8 +55,8 @@ const ProductList = () => {
       title: productState[i].title,
       category: productState[i].category,
       price: `$${productState[i].price}`,
-      color: productState[i].color.map((color) => (
-        <span className="badge bg-dark mx-1">{color.color}</span>
+      color: productState[i].color?.map((color) => (
+        <span className="badge bg-dark mx-1">{color.title}</span>
       )),
       action: (
         <>

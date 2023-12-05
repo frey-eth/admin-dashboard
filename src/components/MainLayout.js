@@ -126,7 +126,7 @@ const MainLayout = () => {
               icon: <RiCoupon2Line />,
               label: "Coupons",
               children: [
-                 {
+                {
                   key: "coupon",
                   icon: <ImBlog />,
                   label: "Add Coupon",
@@ -136,10 +136,10 @@ const MainLayout = () => {
                   icon: <RiCoupon2Line />,
                   label: "Coupon List",
                 },
-              ]
+              ],
             },
             {
-              key: "blog",
+              key: "blogs",
               icon: <BsChatLeftHeart />,
               label: "Blogs",
               children: [

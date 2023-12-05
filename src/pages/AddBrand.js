@@ -62,7 +62,7 @@ const AddBrand = () => {
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      if (getBrandId != undefined) {
+      if (getBrandId !== undefined) {
         const data = { id: getBrandId, brandData: values };
         dispatch(updateBrand(data));
       } else {

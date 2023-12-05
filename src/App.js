@@ -33,7 +33,6 @@ function App() {
           <Route index element={<Dashboard />} />
           <Route path="enquiries" element={<Enquiries />} />
           <Route path="blog-list" element={<BlogList />} />
-          <Route path="blog-list/:id" element={<BlogList />} />
           <Route path="blog-category-list" element={<BlogCategory />} />
           <Route path="orders" element={<Orders />} />
           <Route path="customers" element={<Customers />} />
