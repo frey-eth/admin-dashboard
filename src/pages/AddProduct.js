@@ -294,7 +294,7 @@ const AddProduct = () => {
                 <div
                   type="button"
                   onClick={() => {
-                    dispatch(deleteImg(image.public_id)).then(() => {
+                    dispatch(deleteImg(image.public_id)).unwrap().then(() => {
                       const images = formik.values.images.filter(
                         (img) => img.public_id !== image.public_id
                       );
