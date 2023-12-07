@@ -80,7 +80,7 @@ const Enquiries = () => {
             <option value="Submitted">Submitted</option>
             <option value="Contacted">Contacted</option>
             <option value="In Progress">In Progress</option>
-            <option value="Resolved">Resolved</option>{" "}
+            <option value="Resolved">Resolved</option>
           </select>
         </>
       ),

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { baseUrl } from "../../utils/base_url";
+import { config } from "../../utils/axios_config";
 
 const login = async (userData) => {
   const response = await axios.post(`${baseUrl}user/admin-login`, userData);
@@ -11,7 +12,7 @@ const login = async (userData) => {
 
 const getOrders = async () => {
   const authToken = JSON.parse(localStorage.getItem("user")).token;
-  const response = await axios.get(`${baseUrl}user/get-all-orders`, {
+  const response = await axios.get(`${baseUrl}user/get-orders`, {
     headers: {
       Authorization: `Bearer ${authToken}`,
     },
@@ -19,9 +20,19 @@ const getOrders = async () => {
   return response.data;
 };
 
+const updateOrderStatus = async (order) => {
+  const response = await axios.put(
+    `${baseUrl}user/update-order/${order._id}`,
+    { orderStatus: order.orderStatus },
+    config
+  );
+  return response.data;
+};
+
 const authService = {
   login,
   getOrders,
+  updateOrderStatus,
 };
 
 export default authService;
