@@ -53,8 +53,6 @@ const Orders = () => {
       status: (
         <>
           <select
-            name=""
-            id=""
             className="form-control form-select"
             defaultValue={
               orderState[i].orderStatus ? orderState[i].orderStatus : "Ordered"

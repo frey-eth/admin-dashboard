@@ -67,8 +67,6 @@ const Enquiries = () => {
       status: (
         <>
           <select
-            name=""
-            id=""
             className="form-control form-select"
             defaultValue={
               enquiryState[i].status ? enquiryState[i].status : "Submitted"
