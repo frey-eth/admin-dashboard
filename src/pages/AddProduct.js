@@ -40,7 +40,6 @@ const AddProduct = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const getProductId = location.pathname.split("/")[3];
-  const [imgs, setImages] = useState([]);
   const [color, setColor] = useState([]);
 
   useEffect(() => {
@@ -107,7 +106,7 @@ const AddProduct = () => {
       category: productData?.category || "",
       color: productData?.color || [],
       quantity: productData?.quantity || "",
-      images: productData?.images || imgs,
+      images: productData?.images || [],
     },
     validationSchema: schema,
     onSubmit: (values) => {
@@ -273,7 +272,13 @@ const AddProduct = () => {
               dispatch(uploadImg(acceptedFiles))
                 .unwrap()
                 .then((images) => {
-                  setImages([...imgs, ...images]);
+                  formik.setFieldValue("images", [
+                    ...formik.values.images,
+                    ...images,
+                  ]);
+                })
+                .catch((err) => {
+                  console.log(err);
                 });
             }}
           >

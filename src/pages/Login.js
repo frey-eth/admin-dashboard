@@ -38,8 +38,8 @@ const Login = () => {
   }, [user, isError, isLoading, isSuccess, message]);
 
   return (
-    <div className="py-5" style={{ background: "#ffd333" }}>
-      <div className="my-5 w-25 bg-white rounded-3 mx-auto p-4">
+    <div className="py-5 vh-100 d-flex justify-content-center align-items-center" style={{ background: "#985e8d8b" }}>
+      <div className="my-5 w-25 bg-white rounded-3 mx-auto p-4 shadow">
         <h3 className="text-center">Login</h3>
         <p className="text-center">Login your account to continue</p>
         <div className="error text-center">
@@ -80,7 +80,7 @@ const Login = () => {
           </div>
           <button
             className="border-0 px-3 py-2 text-white rounded-2 fw-bold w-100 text-center text-decoration-none fs-5"
-            style={{ background: "#ffd333" }}
+            style={{ background: "#985e8d8b" }}
             type="submit"
           >
             Login

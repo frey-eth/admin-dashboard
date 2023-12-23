@@ -47,17 +47,17 @@ export const uploadSlice = createSlice({
       .addCase(uploadImg.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(uploadImg.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = false;
-        state.isError = true;
-        state.message = action.error;
-      })
       .addCase(uploadImg.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.isError = false;
         state.images = action.payload;
+      })
+      .addCase(uploadImg.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+        state.message = action.error;
       })
       //delete
       .addCase(deleteImg.pending, (state) => {
