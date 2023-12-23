@@ -63,7 +63,7 @@ const Dashboard = () => {
     xField: "type",
     yField: "sales",
     color: ({ type }) => {
-      return "#ffd333";
+      return "#FA9181";
     },
     label: {
       position: "middle",
@@ -186,7 +186,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      <div className="my-4">
+      <div className="my-4 shadow p-2">
         <Column {...config} />
       </div>
       <div className="mt-4">
