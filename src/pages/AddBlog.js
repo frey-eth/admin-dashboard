@@ -12,7 +12,7 @@ import { deleteImg, uploadImg } from "../features/upload/uploadSlice";
 import { getBlogCategories } from "../features/blogCategory/blogCategorySlice";
 import { toast } from "react-toastify";
 import {
-  createBlog, 
+  createBlog,
   getBlog,
   resetState,
   updateBlog,
@@ -30,7 +30,6 @@ const AddBlog = () => {
   const location = useLocation();
   const blogId = location.pathname.split("/")[3];
 
-  const [imgs, setImgs] = useState([]);
   useEffect(() => {
     if (blogId !== undefined) {
       dispatch(getBlog(blogId));
@@ -65,7 +64,7 @@ const AddBlog = () => {
       title: blogData?.title || "",
       description: blogData?.description || "",
       category: blogData?.category || "",
-      images: blogData?.images || imgs,
+      images: blogData?.images || [],
     },
     validationSchema: schema,
     onSubmit: (values) => {
@@ -134,7 +133,10 @@ const AddBlog = () => {
                 dispatch(uploadImg(acceptedFiles))
                   .unwrap()
                   .then((images) => {
-                    setImgs([...imgs, ...images]);
+                    formik.setFieldValue("images", [
+                      ...formik.values.images,
+                      ...images,
+                    ]);
                   })
               }
             >
