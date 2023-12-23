@@ -174,13 +174,7 @@ const MainLayout = () => {
         />
       </Sider>
       <Layout className="site-layout">
-        <Header
-          className="d-flex justify-content-between ps-1 pe-5"
-          style={{
-            padding: 0,
-            background: colorBgContainer,
-          }}
-        >
+        <Header className="d-flex px-5 justify-content-between ps-1 pe-5t text-white">
           <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -189,6 +183,7 @@ const MainLayout = () => {
               fontSize: "16px",
               width: 64,
               height: 64,
+              color: "white",
             }}
           />
           <div className="d-flex gap-4 align-items-center">
@@ -209,7 +204,7 @@ const MainLayout = () => {
                 aria-expanded="false"
               >
                 <h5 className="mb-0">Phạm Văn Dương</h5>
-                <p className="mb-0">example@example.com</p>
+                <p className="mb-0 text-white-50">duongpham321dz@gmail.com</p>
               </div>
               <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <li>
@@ -236,8 +231,6 @@ const MainLayout = () => {
         </Header>
         <Content
           style={{
-            margin: "24px 16px",
-            padding: 24,
             minHeight: 280,
             background: colorBgContainer,
           }}
@@ -253,7 +246,9 @@ const MainLayout = () => {
             draggable
             theme="light"
           />
-          <Outlet />
+          <div className="p-5 main-page">
+            <Outlet />
+          </div>
         </Content>
       </Layout>
     </Layout>

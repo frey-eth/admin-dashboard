@@ -1,9 +1,17 @@
-body {
-  font-family: "Roboto", sans-serif;
+* {
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.main-page {
+  min-height: 100vh;
+  background-image: linear-gradient(to right, #d3cce3, #e9e4f0);
 }
 
 .ant-layout {
   min-height: 100vh;
+}
+.ant-table .ant-table-cell {
+  background-color: #985e8d8b !important;
 }
 
 .trigger {
@@ -83,3 +91,6 @@ main::-webkit-scrollbar {
   margin-left: 5px;
 }
 
+*::-webkit-scrollbar {
+  display: none;
+}

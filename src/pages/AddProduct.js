@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getBrands } from "../features/brand/BrandSlice";
 import { getCategories } from "../features/productCategory/CategorySlice";
 import { getColors } from "../features/color/ColorSlice";
-import Multiselect from "react-widgets/Multiselect";
 import { Select } from "antd";
 import Dropzone from "react-dropzone";
 import { TiUpload } from "react-icons/ti";
@@ -142,7 +141,7 @@ const AddProduct = () => {
   };
 
   return (
-    <div>
+    <div className="m-3">
       <h3 className="mb-3">
         {getProductId !== undefined ? "Edit" : "Add"} Product
       </h3>
@@ -242,15 +241,17 @@ const AddProduct = () => {
         </div>
         <div className="mb-3">
           <span>Color</span>
-          <Select
-            mode="multiple"
-            allowClear
-            className="w-100"
-            placeholder="Select colors"
-            defaultValue={color}
-            onChange={(i) => handleColors(i)}
-            options={coloropt}
-          />
+          <div className="form-control">
+            <Select
+              mode="multiple"
+              allowClear
+              className="w-100"
+              placeholder="Select colors"
+              defaultValue={color}
+              onChange={(i) => handleColors(i)}
+              options={coloropt}
+            />
+          </div>
           <div className="error">
             {formik.touched.color && formik.errors.color}
           </div>
@@ -287,19 +288,21 @@ const AddProduct = () => {
             )}
           </Dropzone>
         </div>
-        <div className="show-images d-flex flex-wrap gap-3">
+        <div className="show-images my-3 d-flex flex-wrap gap-3">
           {formik.values.images?.map((image, index) => {
             return (
               <div className="position-relative" key={index}>
                 <div
                   type="button"
                   onClick={() => {
-                    dispatch(deleteImg(image.public_id)).unwrap().then(() => {
-                      const images = formik.values.images.filter(
-                        (img) => img.public_id !== image.public_id
-                      );
-                      formik.setFieldValue("images", [...images]);
-                    });
+                    dispatch(deleteImg(image.public_id))
+                      .unwrap()
+                      .then(() => {
+                        const images = formik.values.images.filter(
+                          (img) => img.public_id !== image.public_id
+                        );
+                        formik.setFieldValue("images", [...images]);
+                      });
                   }}
                   className="btn-close position-absolute"
                   style={{ top: "7px", right: "7px" }}

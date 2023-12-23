@@ -2,8 +2,12 @@ import React from "react";
 import { BsArrowUpRight, BsArrowDownRight } from "react-icons/bs";
 import { Table } from "antd";
 import { Column } from "@ant-design/plots";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getOrders, updateOrderStatus } from "../features/auth/AuthSlice";
 
 const Dashboard = () => {
+  const dispatch = useDispatch();
   const data = [
     {
       type: "Jan",
@@ -94,44 +98,58 @@ const Dashboard = () => {
     },
     {
       title: "Product",
-      dataIndex: "product",
+      dataIndex: "products",
     },
     {
       title: "Status",
       dataIndex: "status",
     },
   ];
-  const dataOrder = [
-    {
-      key: "1",
-      name: "John Brown",
-      age: 32,
-      address: "New York No. 1 Lake Park",
-    },
-    {
-      key: "2",
-      name: "Jim Green",
-      age: 42,
-      address: "London No. 1 Lake Park",
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      age: 32,
-      address: "Sydney No. 1 Lake Park",
-    },
-    {
-      key: "4",
-      name: "Disabled User",
-      age: 99,
-      address: "Sydney No. 1 Lake Park",
-    },
-  ];
+  useEffect(() => {
+    dispatch(getOrders());
+  }, []);
+  const orderState = useSelector((state) => state.auth.orders).slice(0, 4);
+  const dataOrder = [];
+  for (let i = 0; i < orderState?.length; i++) {
+    dataOrder.push({
+      key: i + 1,
+      name: orderState[i]?.shippingInfo.name,
+      products: orderState[i]?.orderItems?.map((product) => (
+        <div key={product._id}>
+          <p className="badge bg-dark mx-1 align-items-center p-2 text-uppercase">
+            {product.productId.title} - {product.color.title} - Quantity:
+            {product.quantity}
+          </p>
+        </div>
+      )),
+      status: (
+        <>
+          <select
+            className="form-control form-select"
+            defaultValue={
+              orderState[i].orderStatus ? orderState[i].orderStatus : "Ordered"
+            }
+            onChange={(e) => {
+              const orderData = {
+                _id: orderState[i]._id,
+                orderStatus: e.target.value,
+              };
+              dispatch(updateOrderStatus(orderData));
+            }}
+          >
+            <option value="Ordered">Ordered</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Delivered">Delivered</option>
+          </select>
+        </>
+      ),
+    });
+  }
   return (
     <div>
       <h3 className="mb-4">Dashboard</h3>
       <div className="d-flex justify-content-between gap-5">
-        <div className="d-flex justify-content-between align-items-center flex-grow-1 bg-white p-3 rounded-3">
+        <div className="d-flex justify-content-between align-items-center flex-grow-1 bg-white p-3 rounded-3 shadow fw-bold">
           <div>
             <p>Total</p>
             <h4>$1000</h4>
@@ -143,7 +161,7 @@ const Dashboard = () => {
             <p className="mb-0">Compared to April 2023</p>
           </div>
         </div>
-        <div className="d-flex justify-content-between align-items-center flex-grow-1 bg-white p-3 rounded-3">
+        <div className="d-flex justify-content-between align-items-center flex-grow-1 bg-white p-3 rounded-3 shadow fw-bold">
           <div>
             <p>Total</p>
             <h4>$1000</h4>
@@ -155,7 +173,7 @@ const Dashboard = () => {
             <p className="mb-0">Compared to April 2023</p>
           </div>
         </div>
-        <div className="d-flex justify-content-between align-items-center flex-grow-1 bg-white p-3 rounded-3">
+        <div className="d-flex justify-content-between align-items-center flex-grow-1 bg-white p-3 rounded-3 shadow fw-bold">
           <div>
             <p>Total</p>
             <h4>$1000</h4>
