@@ -38,8 +38,8 @@ const Login = () => {
   }, [user, isError, isLoading, isSuccess, message]);
 
   return (
-    <div className="py-5 vh-100 d-flex justify-content-center align-items-center" style={{ background: "#985e8d8b" }}>
-      <div className="my-5 w-25 bg-white rounded-3 mx-auto p-4 shadow">
+    <div className="login-wrapper py-5 vh-100 d-flex justify-content-center align-items-center">
+      <div className="login-form my-5 w-25 rounded-3 mx-auto p-4 shadow">
         <h3 className="text-center">Login</h3>
         <p className="text-center">Login your account to continue</p>
         <div className="error text-center">
@@ -70,7 +70,7 @@ const Login = () => {
               <div className="text-danger d-flex">{formik.errors.password}</div>
             ) : null}
           </div>
-          <div className="mb-3 text-end">
+          <div className="my-3 text-end">
             <Link
               to="forgot-password"
               className="text-decoration-none text-black"

@@ -22,6 +22,8 @@ import AddBrand from "./pages/AddBrand";
 import AddProduct from "./pages/AddProduct";
 import AddCoupon from "./pages/AddCoupon";
 import Coupon from "./pages/CouponList";
+import { PrivateRoutes } from "./routing/PrivateRoutes";
+import { OpenRoutes } from "./routing/OpenRoutes";
 function App() {
   return (
     <Router>
@@ -29,7 +31,14 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/reset-password" element={<Resetpassword />} />
         <Route path="/forgot-password" element={<Forgotpassword />} />
-        <Route path="/admin" element={<Layout />}>
+        <Route
+          path="/admin"
+          element={
+            <PrivateRoutes>
+              <Layout />
+            </PrivateRoutes>
+          }
+        >
           <Route index element={<Dashboard />} />
           <Route path="enquiries" element={<Enquiries />} />
           <Route path="blog-list" element={<BlogList />} />

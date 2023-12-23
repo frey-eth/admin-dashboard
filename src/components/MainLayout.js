@@ -207,7 +207,7 @@ const MainLayout = () => {
                 <p className="mb-0 text-white-50">duongpham321dz@gmail.com</p>
               </div>
               <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <li>
+                {/* <li>
                   <Link
                     className="dropdown-item py-1 mb-1"
                     style={{ height: "auto", lineHeight: "20px" }}
@@ -215,12 +215,16 @@ const MainLayout = () => {
                   >
                     View Profile
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link
                     className="dropdown-item py-1 mb-1"
                     style={{ height: "auto", lineHeight: "20px" }}
                     to="/"
+                    onClick={() => {
+                      localStorage.clear();
+                      this.forceUpdate();
+                    }}
                   >
                     Signout
                   </Link>

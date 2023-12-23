@@ -7,6 +7,15 @@
   background-image: linear-gradient(to right, #d3cce3, #e9e4f0);
 }
 
+.login-wrapper {
+  background-image: url("../public/bg-img.jpg");
+}
+
+.login-form {
+  backdrop-filter: blur(15px);
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
 .ant-layout {
   min-height: 100vh;
 }
