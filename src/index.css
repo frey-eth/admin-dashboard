@@ -20,7 +20,7 @@
   min-height: 100vh;
 }
 .ant-table .ant-table-cell {
-  background-color: #985e8d8b !important;
+  background-color: rgba(253, 86, 86, 0.2) !important;
 }
 
 .trigger {
@@ -29,6 +29,10 @@
   line-height: 64px;
   cursor: pointer;
   transition: color 0.3s;
+}
+
+.income-wrapper {
+  background-color: rgba(102, 223, 247, 0.525) !important ;
 }
 
 .trigger:hover {

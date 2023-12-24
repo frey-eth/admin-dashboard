@@ -4,60 +4,70 @@ import { Table } from "antd";
 import { Column } from "@ant-design/plots";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrders, updateOrderStatus } from "../features/auth/AuthSlice";
+import {
+  getMonthWiseOrderCount,
+  getMonthWiseOrderIncome,
+  getOrders,
+  getYearWiseOrderIncome,
+  updateOrderStatus,
+} from "../features/auth/AuthSlice";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getOrders());
+    dispatch(getMonthWiseOrderCount());
+    dispatch(getMonthWiseOrderIncome());
+    dispatch(getYearWiseOrderIncome());
+  }, []);
+  const month = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
   const data = [
     {
-      type: "Jan",
-      sales: 38,
+      type: "September",
+      sales: 11,
     },
     {
-      type: "Feb",
-      sales: 52,
+      type: "October",
+      sales: 7,
     },
     {
-      type: "Mar",
-      sales: 61,
-    },
-    {
-      type: "Apr",
-      sales: 145,
-    },
-    {
-      type: "May",
-      sales: 48,
-    },
-    {
-      type: "Jun",
-      sales: 38,
-    },
-    {
-      type: "Jul",
-      sales: 38,
-    },
-    {
-      type: "Aug",
-      sales: 38,
-    },
-    {
-      type: "Sep",
-      sales: 46,
-    },
-    {
-      type: "Oct",
-      sales: 32,
-    },
-    {
-      type: "Nov",
-      sales: 76,
-    },
-    {
-      type: "Dec",
-      sales: 100,
+      type: "November",
+      sales: 10,
     },
   ];
+
+  const monthOrderCountState = useSelector(
+    (state) => state.auth?.monthOrderCount
+  );
+
+  for (let i = 0; i < monthOrderCountState?.length; i++) {
+    data.push({
+      type: month[monthOrderCountState[i]._id.month - 1],
+      sales: monthOrderCountState[i].count,
+    });
+  }
+
+  const monthOrderIncomeState = useSelector(
+    (state) => state.auth?.monthOrderIncome
+  );
+
+  const yearOrderIncomeState = useSelector(
+    (state) => state.auth?.yearOrderIncome
+  );
+
   const config = {
     data,
     xField: "type",
@@ -74,7 +84,7 @@ const Dashboard = () => {
     },
     xAxis: {
       label: {
-        autoHide: true,
+        autoHide: false,
         autoRotate: false,
       },
     },
@@ -87,6 +97,7 @@ const Dashboard = () => {
       },
     },
   };
+
   const columns = [
     {
       title: "No.",
@@ -105,9 +116,7 @@ const Dashboard = () => {
       dataIndex: "status",
     },
   ];
-  useEffect(() => {
-    dispatch(getOrders());
-  }, []);
+
   const orderState = useSelector((state) => state.auth.orders).slice(0, 4);
   const dataOrder = [];
   for (let i = 0; i < orderState?.length; i++) {
@@ -145,23 +154,41 @@ const Dashboard = () => {
       ),
     });
   }
+
   return (
     <div>
       <h3 className="mb-4">Dashboard</h3>
       <div className="d-flex justify-content-between gap-5">
-        <div className="d-flex justify-content-between align-items-center flex-grow-1 bg-white p-3 rounded-3 shadow fw-bold">
+        <div className="income-wrapper d-flex justify-content-between align-items-center flex-grow-1 bg-white p-3 rounded-3 shadow fw-bold">
           <div>
-            <p>Total</p>
-            <h4>$1000</h4>
+            <p>Total Income</p>
+            <h4 className="text-success">
+              ${(yearOrderIncomeState && yearOrderIncomeState[0]?.amount) || 0}
+            </h4>
           </div>
-          <div className="d-flex flex-column justify-content-end">
+          {/* <div className="d-flex flex-column justify-content-end">
             <h6 className="green">
               <BsArrowUpRight /> 32%
             </h6>
             <p className="mb-0">Compared to April 2023</p>
+          </div> */}
+        </div>
+        <div className="income-wrapper d-flex justify-content-between align-items-center flex-grow-1 bg-white p-3 rounded-3 shadow fw-bold">
+          <div>
+            <p>Current Month's Income</p>
+            <h4 className="text-success">
+              $
+              {(monthOrderIncomeState && monthOrderIncomeState[0]?.amount) || 0}
+            </h4>
+          </div>
+          <div className="d-flex flex-column justify-content-end">
+            <h6 className="red">
+              <BsArrowDownRight /> 32%
+            </h6>
+            <p className="mb-0">Compared to last Month</p>
           </div>
         </div>
-        <div className="d-flex justify-content-between align-items-center flex-grow-1 bg-white p-3 rounded-3 shadow fw-bold">
+        {/* <div className="d-flex justify-content-between align-items-center flex-grow-1 bg-white p-3 rounded-3 shadow fw-bold">
           <div>
             <p>Total</p>
             <h4>$1000</h4>
@@ -172,21 +199,10 @@ const Dashboard = () => {
             </h6>
             <p className="mb-0">Compared to April 2023</p>
           </div>
-        </div>
-        <div className="d-flex justify-content-between align-items-center flex-grow-1 bg-white p-3 rounded-3 shadow fw-bold">
-          <div>
-            <p>Total</p>
-            <h4>$1000</h4>
-          </div>
-          <div className="d-flex flex-column justify-content-end">
-            <h6 className="red">
-              <BsArrowDownRight /> 32%
-            </h6>
-            <p className="mb-0">Compared to April 2023</p>
-          </div>
-        </div>
+        </div> */}
       </div>
       <div className="my-4 shadow p-2">
+        <h3 className="mb-4">Products Insight</h3>
         <Column {...config} />
       </div>
       <div className="mt-4">
