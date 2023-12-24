@@ -163,7 +163,10 @@ const Dashboard = () => {
           <div>
             <p>Total Income</p>
             <h4 className="text-success">
-              ${(yearOrderIncomeState && yearOrderIncomeState[0]?.amount) || 0}
+              $
+              {Math.round(
+                yearOrderIncomeState && yearOrderIncomeState[0]?.amount
+              ) || 0}
             </h4>
           </div>
           {/* <div className="d-flex flex-column justify-content-end">
@@ -178,7 +181,9 @@ const Dashboard = () => {
             <p>Current Month's Income</p>
             <h4 className="text-success">
               $
-              {(monthOrderIncomeState && monthOrderIncomeState[0]?.amount) || 0}
+              {Math.round(
+                monthOrderIncomeState && monthOrderIncomeState[0]?.amount
+              ) || 0}
             </h4>
           </div>
           <div className="d-flex flex-column justify-content-end">
